@@ -1,10 +1,10 @@
 'use client';
 
 
-const AuthLayoutProvider = ({ children }: any) => {
+const AuthLayoutProvider = () => {
     return (
-        <div >
-            {children}
+        <div>
+
         </div>
     );
 };

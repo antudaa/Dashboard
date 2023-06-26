@@ -1,7 +1,7 @@
-import AuthLayoutProvider from './Provider/Layout/AuthLayoutProvider'
+import AuthLayoutProvider from './Provider/Layout/AuthGuardLayout '
 import MainLayoutProvider from './Provider/Layout/MainLayoutProvider'
 import './globals.css'
-import { Inter } from 'next/font/google'
+import { Inter } from 'next/font/google';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,11 +18,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        {/* <MainLayoutProvider> */}
-          {/* <AuthLayoutProvider> */}
+        <MainLayoutProvider>
           {children}
-          {/* </AuthLayoutProvider> */}
-        {/* </MainLayoutProvider> */}
+        </MainLayoutProvider>
       </body>
     </html>
   )
