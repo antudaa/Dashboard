@@ -15,6 +15,8 @@ export default function Home() {
   console.log(isSidebarOpen)
 
   return (
-    <div>Content</div>
+    <div>
+      <h1 className='text-center text-gray-800 text-4xl'>Home Page</h1>
+    </div>
   )
 }

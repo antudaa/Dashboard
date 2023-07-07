@@ -165,12 +165,12 @@ export const MenuData = [
             {
                 icon: <FaUsers />,
                 title: "User List",
-                link: "/userList",
+                link: "/Pages/user/userList",
             },
             {
                 icon: <MdOutlineAssignmentTurnedIn />,
-                title: "Assign User",
-                link: "/",
+                title: "Email Requests",
+                link: "/Pages/user/pending-accepted-email-requests",
             },
         ]
     },

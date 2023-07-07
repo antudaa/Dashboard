@@ -1,5 +1,5 @@
-import AuthLayoutProvider from './Provider/Layout/AuthGuardLayout '
 import MainLayoutProvider from './Provider/Layout/MainLayoutProvider'
+import ReduxProvider from '@/app/Provider/Layout/ReduxProvider/ReduxProvider';
 import './globals.css'
 import { Inter } from 'next/font/google';
 
@@ -11,6 +11,7 @@ export const metadata = {
 }
 
 export default function RootLayout({
+
   children,
 }: {
   children: React.ReactNode
@@ -18,9 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <MainLayoutProvider>
-          {children}
-        </MainLayoutProvider>
+        <ReduxProvider>
+          <MainLayoutProvider>
+            {children}
+          </MainLayoutProvider>
+        </ReduxProvider>
       </body>
     </html>
   )

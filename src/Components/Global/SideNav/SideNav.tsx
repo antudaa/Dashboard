@@ -5,17 +5,15 @@ import Logo from "@/Assets/Icons/logobgdark.png";
 import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
-import { MenuData } from "@/Components/Data/Data";
+import { MenuData } from "@/Data/Data";
 import { AiOutlineRight } from "react-icons/ai"
 
 
-const SideNav = ({ open }: any) => {
-
-    console.log(MenuData);
+const SideNav = () => {
 
     const [openMenus, setOpenMenus] = useState([]);
 
-    const toggleDropdown = (menuId) => {
+    const toggleDropdown = (menuId: never) => {
         if (openMenus.includes(menuId)) {
             setOpenMenus(openMenus.filter((id) => id !== menuId));
         } else {
@@ -28,22 +26,22 @@ const SideNav = ({ open }: any) => {
 
         <nav >
 
-            <div className="bg-[#1C2536] dark:bg-gray-900 dark:border-gray-700 flex h-screen flex-col border-r border-gray-800">
+            <div className="bg-[#1C2536] z-50 dark:bg-gray-900 dark:border-gray-700 flex h-full flex-col border-r border-gray-800">
                 <aside className="flex flex-col md:w-72 w-64 py-8 bg-white dark:bg-gray-900 dark:border-gray-700">
                     <Link href="#" className="mx-auto">
                         {/* Profile Image  */}
                         <Image src={Logo} width={160} height={60} alt="Image not found" />
                     </Link>
-                    {/* Profile Info  */}
+                    {/* Profile Card Info */}
                     <div className="flex flex-col items-center mt-6 -mx-2">
                         <Image className="rounded-full cursor-pointer" src={profileImage} width={96} height={96} alt="Image not found" />
                         <h4 className="mt-2 font-medium text-gray-800 dark:text-gray-200">Habib Habibullah</h4>
-                        <p className="mt-1 text-sm font-medium text-gray-600 dark:text-gray-400">habib@example.com</p>
+                        <p className="mt-1 text-sm font-medium text-gray-600 dark:text-gray-400">habib@admin.com</p>
                     </div>
 
                     <div className="px-5 py-8 overflow-y-auto bg-white sm:w-64 w-64 dark:bg-gray-900 dark:border-gray-700">
 
-                        {/* Search Bar  */}
+                        {/* Search Bar to search Options */}
                         <div className="relative">
                             <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                                 <svg className="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none">
@@ -58,55 +56,55 @@ const SideNav = ({ open }: any) => {
                         <nav className="mt-4 -mx-3 space-y-6 ">
 
                             <ul className="py-4">
-                                {MenuData.map((menu) => (
+                                {MenuData.map((menu:any) => (
 
                                     // Main Menu 
-                                    <li key={menu.id}>
-                                        <div>
-                                            <Link href="/" onClick={() => toggleDropdown(menu.id)} className="flex items-center px-4 py-3 text-gray-600 transition-transform duration-500 rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700" >
-                                                <div className="flex ">
-                                                    <div className="flex items-center ">
-                                                        <li>
+                                    <li key={menu?.id}>
+                                        <>
+                                            <Link href={`${menu?.link}`} onClick={() => toggleDropdown(menu.id)} className="flex px-4 py-3 text-gray-600 transition-transform duration-500 rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700" >
+                                                <span className="flex ">
+                                                    <span className="flex items-center ">
+                                                        <span>
                                                             {/* Subtitle Icon  */}
                                                             {menu?.icon}
-                                                        </li>
+                                                        </span>
 
                                                         <span className="mx-2 text-sm font-medium">
                                                             {/* Main Title Name  */}
-                                                            {menu.title}
+                                                            {menu?.title}
                                                         </span>
-                                                    </div>
+                                                    </span>
                                                     {
                                                         menu.subMenu.length > 1 &&
-                                                        <li className="">
+                                                        <span className="flex my-auto justify-end">
                                                             {/* Subtitle Icon  */}
                                                             <AiOutlineRight />
-                                                        </li>
+                                                        </span>
                                                     }
-                                                </div>
+                                                </span>
                                             </Link>
-                                            {openMenus.includes(menu.id) && (
-                                                <ul>
+                                            {openMenus.includes(menu?.id) && (
+                                                <span>
                                                     {menu.subMenu.map((item, i) => (
 
                                                         // SubMenu 
-                                                        <li key={i}>
-                                                            <Link href={item.link} className="flex items-center ml-6 px-3 py-3 text-gray-600 transition-colors duration-700 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700" >
-                                                                <li>
+                                                        <span key={i}>
+                                                            <Link href={item?.link} className="flex items-center ml-6 px-3 py-3 text-gray-600 transition-colors duration-700 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700" >
+                                                                <span>
                                                                     {/* SubTitle Icon  */}
                                                                     {item?.icon}
-                                                                </li>
+                                                                </span>
 
                                                                 <span className="mx-2 text-sm font-medium">
                                                                     {/* Subtitle Name  */}
-                                                                    {item.title}
+                                                                    {item?.title}
                                                                 </span>
                                                             </Link>
-                                                        </li>
+                                                        </span>
                                                     ))}
-                                                </ul>
+                                                </span>
                                             )}
-                                        </div>
+                                        </>
                                     </li>
                                 ))}
                             </ul>
@@ -115,14 +113,14 @@ const SideNav = ({ open }: any) => {
                             <div className="space-y-3 ">
                                 <label className="px-3 text-xs text-gray-500 uppercase dark:text-gray-400">Customization</label>
 
-                                <Link href="/signUp" className="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700">
+                                <Link href="/Pages/auth/signUp" className="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M4.098 19.902a3.75 3.75 0 005.304 0l6.401-6.402M6.75 21A3.75 3.75 0 013 17.25V4.125C3 3.504 3.504 3 4.125 3h5.25c.621 0 1.125.504 1.125 1.125v4.072M6.75 21a3.75 3.75 0 003.75-3.75V8.197M6.75 21h13.125c.621 0 1.125-.504 1.125-1.125v-5.25c0-.621-.504-1.125-1.125-1.125h-4.072M10.5 8.197l2.88-2.88c.438-.439 1.15-.439 1.59 0l3.712 3.713c.44.44.44 1.152 0 1.59l-2.879 2.88M6.75 17.25h.008v.008H6.75v-.008z" />
                                     </svg>
 
                                     <span className="mx-2 text-sm font-medium">Sign Up</span>
                                 </Link>
-                                <Link href="/login" className="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700" >
+                                <Link href="/Pages/auth/login" className="flex items-center px-3 py-2 text-gray-600 transition-colors duration-300 transform rounded-lg dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700" >
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M4.098 19.902a3.75 3.75 0 005.304 0l6.401-6.402M6.75 21A3.75 3.75 0 013 17.25V4.125C3 3.504 3.504 3 4.125 3h5.25c.621 0 1.125.504 1.125 1.125v4.072M6.75 21a3.75 3.75 0 003.75-3.75V8.197M6.75 21h13.125c.621 0 1.125-.504 1.125-1.125v-5.25c0-.621-.504-1.125-1.125-1.125h-4.072M10.5 8.197l2.88-2.88c.438-.439 1.15-.439 1.59 0l3.712 3.713c.44.44.44 1.152 0 1.59l-2.879 2.88M6.75 17.25h.008v.008H6.75v-.008z" />
                                     </svg>

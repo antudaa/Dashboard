@@ -1,48 +1,54 @@
 'use client';
 
+import React from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Axios } from "axios";
+import { useState } from "react";
 
 const page = () => {
+
+    const [user, setUser] = React.useState({
+        email: "",
+        password: "",
+    });
+
+    const onLogin = async () => {
+        
+    }
+
     return (
-        <div className="bg-indigo-100 lg:bg-white">
-            <div className="lg:flex">
-                <div className="lg:w-1/2 xl:max-w-screen-sm">
-                    <div className="py-12 bg-indigo-100 lg:bg-white flex justify-center lg:justify-start lg:px-12">
+        <div className="h-full bg-indigo-400 lg:bg-indigo-400">
+            <div className="lg:flex p-10">
+                <div className="lg:w-2/3 bg-[white]">
+                    <div className="py-12 flex justify-center lg:justify-start lg:px-12">
                         <div className="cursor-pointer flex items-center">
-                            <div>
-                                <svg className="w-10 text-indigo-500" xmlns="http://www.w3.org/2000/svg" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 225 225">
-                                    <g transform="matrix( 1, 0, 0, 1, 0,0) ">
-                                        <g>
-                                            <path id="Layer0_0_1_STROKES" className="st0" d="M173.8,151.5l13.6-13.6 M35.4,89.9l29.1-29 M89.4,34.9v1 M137.4,187.9l-0.6-0.4     M36.6,138.7l0.2-0.2 M56.1,169.1l27.7-27.6 M63.8,111.5l74.3-74.4 M87.1,188.1L187.6,87.6 M110.8,114.5l57.8-57.8" />
-                                        </g>
-                                    </g>
-                                </svg>
-                            </div>
-                            <div className="text-2xl text-indigo-800 tracking-wide ml-2 font-semibold">blockify</div>
+                            <div className="text-2xl text-indigo-800 bg-[white] tracking-wide ml-2 font-semibold">HATechZ</div>
                         </div>
                     </div>
-                    <div className="mt-10  px-12 sm:px-24 md:px-48 lg:px-12 lg:mt-16 xl:px-24 xl:max-w-2xl">
+                    <div className="mt-10 px-12 sm:px-24 md:px-16 lg:px-12 lg:mt-16 xl:px-24">
                         <h2 className="text-center text-4xl text-indigo-900 font-display font-semibold lg:text-left xl:text-5xl
                     xl:text-bold">Log in</h2>
-                        <div className="mt-12">
+                        <div className="mt-12 w-full">
                             <form>
                                 <div>
                                     <div className="text-sm font-bold text-gray-700 tracking-wide">Email Address</div>
-                                    <input className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500" type="" placeholder="mike@gmail.com" />
+                                    <input className="w-full text-xs lg:text-lg py-2 border-b text-gray-700 border-gray-300 focus:outline-none focus:border-indigo-500" type="" placeholder="mike@gmail.com" />
                                 </div>
                                 <div className="mt-8">
                                     <div className="flex justify-between items-center">
                                         <div className="text-sm font-bold text-gray-700 tracking-wide">
                                             Password
                                         </div>
-                                        <div>
-                                            <a className="text-xs font-display font-semibold text-indigo-600 hover:text-indigo-800
-                                        cursor-pointer">
-                                                Forgot Password?
-                                            </a>
-                                        </div>
+
                                     </div>
-                                    <input className="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500" type="" placeholder="Enter your password" />
+                                    <input className="w-full text-xs lg:text-lg py-2 border-b border-gray-300 text-gray-700 focus:outline-none focus:border-indigo-500" type="" placeholder="Enter your password" />
+                                </div>
+                                <div className="flex justify-end mt-6">
+                                    <a className="text-xs font-display font-semibold text-indigo-600 hover:text-indigo-800
+                                        cursor-pointer">
+                                        Forgot Password?
+                                    </a>
                                 </div>
                                 <div className="mt-10">
                                     <button className="bg-indigo-500 text-gray-100 p-4 w-full rounded-full tracking-wide
@@ -52,12 +58,14 @@ const page = () => {
                                     </button>
                                 </div>
                             </form>
-                            <div className="mt-12 text-sm font-display font-semibold text-gray-700 text-center">
-                                Don't have an account ? <Link href="/signUp" className="cursor-pointer text-indigo-600 hover:text-indigo-800">Sign up</Link>
+                            <div className="my-12 text-sm font-display font-semibold text-gray-700 text-center">
+                                Don't have an account ? <Link href="/signUp" className="cursor-pointer text-indigo-600 hover:text-indigo-800 pb-16">Sign up</Link>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                {/* Login Page Side Image */}
                 <div className="hidden lg:flex items-center justify-center bg-indigo-100 flex-1 h-screen">
                     <div className="max-w-xs transform duration-200 hover:scale-110 cursor-pointer">
                         <svg className="w-5/6 mx-auto" xmlns="http://www.w3.org/2000/svg" id="f080dbb7-9b2b-439b-a118-60b91c514f72" data-name="Layer 1" viewBox="0 0 528.71721 699.76785">
@@ -72,11 +80,11 @@ const page = () => {
                             </g>
                             <circle cx="296" cy="348.06342" r="13" opacity="0.1" />
                             <circle cx="296" cy="346.06342" r="13" fill="#535461" />
-                            <line x1="52.81943" y1="16.10799" x2="52.81943" y2="677.15616" fill="none" stroke="#000" strokeMiterlimit="10" stroke-width="2" opacity="0.1" />
-                            <line x1="109.81943" y1="12.10799" x2="109.81943" y2="679.15616" fill="none" stroke="#000" strokeMiterlimit="10" stroke-width="2" opacity="0.1" />
-                            <line x1="166.81943" y1="9.10799" x2="166.81943" y2="683" fill="none" stroke="#000" strokeMiterlimit="10" stroke-width="2" opacity="0.1" />
-                            <line x1="223.81943" y1="6.10799" x2="223.81943" y2="687.15616" fill="none" stroke="#000" strokeMiterlimit="10" stroke-width="2" opacity="0.1" />
-                            <line x1="280.81943" y1="3.10799" x2="280.81943" y2="688" fill="none" stroke="#000" strokeMiterlimit="10" stroke-width="2" opacity="0.1" />
+                            <line x1="52.81943" y1="16.10799" x2="52.81943" y2="677.15616" fill="none" stroke="#000" strokeMiterlimit="10" strokeWidth="2" opacity="0.1" />
+                            <line x1="109.81943" y1="12.10799" x2="109.81943" y2="679.15616" fill="none" stroke="#000" strokeMiterlimit="10" strokeWidth="2" opacity="0.1" />
+                            <line x1="166.81943" y1="9.10799" x2="166.81943" y2="683" fill="none" stroke="#000" strokeMiterlimit="10" strokeWidth="2" opacity="0.1" />
+                            <line x1="223.81943" y1="6.10799" x2="223.81943" y2="687.15616" fill="none" stroke="#000" strokeMiterlimit="10" strokeWidth="2" opacity="0.1" />
+                            <line x1="280.81943" y1="3.10799" x2="280.81943" y2="688" fill="none" stroke="#000" strokeMiterlimit="10" strokeWidth="2" opacity="0.1" />
                             <ellipse cx="463.21721" cy="95.32341" rx="39.5" ry="37" fill="#2f2e41" />
                             <path d="M683.8586,425.93948l-10,14s-48,10-30,25,44-14,44-14l14-18Z" transform="translate(-335.6414 -100.11607)" fill="#ffb8b8" />
                             <path d="M735.8586,266.93948s-13,0-16,18-6,78-6,78-42,55-35,62,15,20,20,18,48-61,48-61Z" transform="translate(-335.6414 -100.11607)" fill="#7f9cf5" />
@@ -96,12 +104,12 @@ const page = () => {
                 </div>
             </div>
 
-            <div className="REMOVE-THIS-ELEMENT-IF-YOU-ARE-USING-THIS-PAGE hidden treact-popup fixed inset-0 flex items-center justify-center">
+            <div className="REMOVE-THIS-ELEMENT-IF-YOU-ARE-USING-THIS-PAGE hidden treact-popup fixed inset-0 items-center justify-center">
                 <div className="max-w-lg p-8 sm:pb-4 bg-white rounded shadow-lg text-center sm:text-left">
 
                     <h3 className="text-xl sm:text-2xl font-semibold mb-6 flex flex-col sm:flex-row items-center">
                         <div className="bg-green-200 p-2 rounded-full flex items-center mb-4 sm:mb-0 sm:mr-2">
-                            <svg className="text-green-800 inline-block w-5 h-5" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
+                            <svg className="text-green-800 inline-block w-5 h-5" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" stroke="currentColor" viewBox="0 0 24 24"><path d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
                         </div>
                         Free TailwindCSS Component Kit!
                     </h3>

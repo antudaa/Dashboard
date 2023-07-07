@@ -1,9 +1,10 @@
 'use client';
+import Link from "next/link";
 import "./GlobalButton.modul.css"
 
-const GlobalButton = ({ text }: any) => {
+const GlobalButton = ({ text, link }: any) => {
     return (
-        <button className="ripple">{text}</button>
+        <Link href={`${link}`} className="ripple">{text}</Link>
     );
 };
 
