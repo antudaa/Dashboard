@@ -1,27 +1,43 @@
 'use client';
 
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Axios } from "axios";
 import { useState } from "react";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import { useForm } from "react-hook-form";
 
 const page = () => {
 
-    const [user, setUser] = React.useState({
-        email: "",
-        password: "",
-    });
+    // Dissabled Button State 
+    const [buttonDissabled, setButtonDisabled] = useState(true);
 
-    const onLogin = async () => {
-        
-    }
+    // Getting data From Form Via React Hoook Form 
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+
+    // OnSubmit Function to Post the data 
+    const onSubmit = async (userData: any) => {
+
+        console.log(userData)
+        try {
+            const response = await axios.post("/api/users/login", userData);
+            console.log("Login Successfull", response.data);
+            toast.success("Login Successfull...")
+        } catch (error: any) {
+            // Handeling Catch Errors 
+            toast.error(error.message)
+            console.error("Login Failed Please Check your email & Password...", error.message);
+        } 
+    };
+
 
     return (
         <div className="h-full bg-indigo-400 lg:bg-indigo-400">
             <div className="lg:flex p-10">
                 <div className="lg:w-2/3 bg-[white]">
                     <div className="py-12 flex justify-center lg:justify-start lg:px-12">
+                        {/* Company Name  */}
                         <div className="cursor-pointer flex items-center">
                             <div className="text-2xl text-indigo-800 bg-[white] tracking-wide ml-2 font-semibold">HATechZ</div>
                         </div>
@@ -30,11 +46,20 @@ const page = () => {
                         <h2 className="text-center text-4xl text-indigo-900 font-display font-semibold lg:text-left xl:text-5xl
                     xl:text-bold">Log in</h2>
                         <div className="mt-12 w-full">
-                            <form>
+                            <form onSubmit={handleSubmit(onSubmit)}>
+                                {/* Email Field  */}
                                 <div>
                                     <div className="text-sm font-bold text-gray-700 tracking-wide">Email Address</div>
-                                    <input className="w-full text-xs lg:text-lg py-2 border-b text-gray-700 border-gray-300 focus:outline-none focus:border-indigo-500" type="" placeholder="mike@gmail.com" />
+                                    <input
+                                        type="email"
+                                        className="w-full text-xs lg:text-lg py-2 border-b border-gray-300 text-gray-700 focus:outline-none focus:border-indigo-500"
+                                        placeholder="Enter your email"
+                                        {...register("email", { required: true })}
+                                        aria-invalid={errors.email ? "true" : "false"}
+                                    />
+                                    {errors.email?.type === 'required' && <p role="alert" className="text-xs">Email is required</p>}
                                 </div>
+                                {/* Password Field  */}
                                 <div className="mt-8">
                                     <div className="flex justify-between items-center">
                                         <div className="text-sm font-bold text-gray-700 tracking-wide">
@@ -42,22 +67,33 @@ const page = () => {
                                         </div>
 
                                     </div>
-                                    <input className="w-full text-xs lg:text-lg py-2 border-b border-gray-300 text-gray-700 focus:outline-none focus:border-indigo-500" type="" placeholder="Enter your password" />
+                                    <input
+                                        type="password"
+                                        className="w-full text-xs lg:text-lg py-2 border-b border-gray-300 text-gray-700 focus:outline-none focus:border-indigo-500"
+                                        placeholder="Enter your password"
+                                        {...register("password", { required: true })}
+                                        aria-invalid={errors.password ? "true" : "false"}
+                                    />
+                                    {errors.password?.type === 'required' && <p role="alert" className="text-xs">Password is required</p>}
+
                                 </div>
                                 <div className="flex justify-end mt-6">
+                                    {/* Forgot Password Button  */}
                                     <a className="text-xs font-display font-semibold text-indigo-600 hover:text-indigo-800
                                         cursor-pointer">
                                         Forgot Password?
                                     </a>
                                 </div>
+                                {/* Submit Button  */}
                                 <div className="mt-10">
-                                    <button className="bg-indigo-500 text-gray-100 p-4 w-full rounded-full tracking-wide
+                                    <button type='submit' className="bg-indigo-500 text-gray-100 p-4 w-full rounded-full tracking-wide
                                 font-semibold font-display focus:outline-none focus:shadow-outline hover:bg-indigo-600
                                 shadow-lg">
                                         Log In
                                     </button>
                                 </div>
                             </form>
+                            {/* Sign UP page Link  */}
                             <div className="my-12 text-sm font-display font-semibold text-gray-700 text-center">
                                 Don't have an account ? <Link href="/signUp" className="cursor-pointer text-indigo-600 hover:text-indigo-800 pb-16">Sign up</Link>
                             </div>

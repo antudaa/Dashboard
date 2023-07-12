@@ -56,7 +56,7 @@ const SideNav = () => {
                         <nav className="mt-4 -mx-3 space-y-6 ">
 
                             <ul className="py-4">
-                                {MenuData.map((menu:any) => (
+                                {MenuData.map((menu: any) => (
 
                                     // Main Menu 
                                     <li key={menu?.id}>

@@ -1,15 +1,13 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-    firstName: {
+    firstname: {
         type: String,
-        required: [true, "Please enter firstname"],
-        unique: true,
+        required: [true, "Please provide your firstname"]
     },
-    lastName: {
+    lastname: {
         type: String,
-        required: [true, "Please enter lastname"],
-        unique: true,
+        required: [true, "Please provide your lastname"]
     },
     username: {
         type: String,
@@ -23,13 +21,21 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        requeired: [true, "Please provide a password"]
+        required: [true, "Please provide a password"],
     },
-    isVerified: {
+    isVerfied: {
         type: Boolean,
-        default: false
+        default: false,
+    },
+    isSuperAdmin: {
+        type: Boolean,
+        default: false,
     },
     isAdmin: {
+        type: Boolean,
+        default: false,
+    },
+    isHR: {
         type: Boolean,
         default: false,
     },
@@ -37,9 +43,8 @@ const userSchema = new mongoose.Schema({
     forgotPasswordTokenExpiry: Date,
     verifyToken: String,
     verifyTokenExpiry: Date,
-});
+})
 
-const User = mongoose.models.users || mongoose.model
-    ("Users", userSchema);
+const User = mongoose.models.Users ?? mongoose.model("Users", userSchema);
 
 export default User;

@@ -4,52 +4,37 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { useState } from "react";
 import { toast } from "react-hot-toast";
+import { useForm } from "react-hook-form";
 
-
+// NOTE: Here we used using React Hook Form To get data from our sign up form 
 const page = () => {
 
-    const router = useRouter();
+    // Getting data From Form Via React Hoook Form 
+    const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    // const router = useRouter();
 
-    const [user, setUser] = React.useState({
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: "",
-        userName: "",
-    });
-    console.log(user)
-
-    const [buttonDissabled, setButtonDissabled] = React.useState(false);
-
-    const [loading, setLoading] = React.useState(false)
-
-    const onSignUp = async () => {
-        console.log(user)
-
+    // OnSubmit Function to Post the data 
+    const onSubmit = async (userData: any) => {
         try {
-            setLoading(true);
-            const response = await axios.post(`/src/app/api/signup`, user);
-            console.log("SignUp successfull", response.data);
-            router.push("/login");
+            const response = await axios.post("/api/users/signup", userData);
 
+            if (response.status === 200) {
+                const data = response.data;
+                // Reseting Data Fields
+                reset();
+                // Toaster for Successfull message 
+                toast.success("Registration Successfull...")
+            } else {
+                // handle the error
+                toast.error("Something Went Wrong Please give valid information...")
+                console.error("Sign Up failed Please check somethign went wrong");
+            }
         } catch (error: any) {
-            console.log('Signup failed', error.message);
-            toast.error(error.message);
-
-        } finally {
-            setLoading(false)
+            // Handeling Catch Errors 
+            console.error("Sign Up failed", error.message);
         }
     };
-
-    useEffect(() => {
-        if (user.email.length > 0 && user.password.length > 0 && user.userName.length > 0) {
-            setButtonDissabled(false)
-        } else {
-            setButtonDissabled(true)
-        }
-    }, [user])
 
     return (
         <div className="">
@@ -63,84 +48,110 @@ const page = () => {
                         </div>
                         <div className="w-full my-auto md:w-1/2 py-10 px-5 md:px-10">
                             <div className="text-center mb-10">
-                                <h1 className="font-bold text-3xl text-gray-900">{loading ? "Processing" : "Register"}</h1>
+                                <h1 className="font-bold text-3xl text-gray-900">{"Register"}</h1>
                                 <p>Enter your information to register</p>
                             </div>
 
                             {/* Sign Up Page Form */}
-                            <form >
+                            <form onSubmit={handleSubmit(onSubmit)}>
+                                {/* Form fields */}
+                                {/* First & Last Name  */}
                                 <div className="flex -mx-3">
                                     <div className="w-1/2 px-3 mb-5">
-
-                                        {/* First Name Field */}
                                         <label className="text-xs font-semibold px-1">First name</label>
                                         <div className="flex">
-                                            <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i className="mdi mdi-account-outline text-gray-400 text-lg"></i></div>
+                                            <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                                                <i className="mdi mdi-account-outline text-gray-400 text-lg"></i>
+                                            </div>
+                                            {/* First Name Input Field  */}
                                             <input
-                                                value={user.firstName}
-                                                onChange={(e) => setUser({ ...user, firstName: e.target.value })}
-                                                type="text" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="John" />
+                                                className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                                                {...register("firstname", { required: true })}
+                                                aria-invalid={errors.firstname ? "true" : "false"}
+                                            />
+                                            {errors.firstname?.type === 'required' && <p role="alert" className="text-xs">First name is required</p>}
                                         </div>
                                     </div>
-
                                     {/* Last Name Field  */}
-                                    <div className="w-1/2 px-3 mb-5">
+                                    <div className="w-1/2 px-3 mb-5 ">
                                         <label className="text-xs font-semibold px-1">Last name</label>
                                         <div className="flex">
-                                            <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i className="mdi mdi-account-outline text-gray-400 text-lg"></i></div>
+                                            <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                                                <i className="mdi mdi-account-outline text-gray-400 text-lg"></i>
+                                            </div>
                                             <input
-                                                value={user.lastName}
-                                                onChange={(e) => setUser({ ...user, lastName: e.target.value })}
-                                                type="text" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="Smith" />
+                                                className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                                                {...register("lastname", { required: "Email Address is required" })}
+                                                aria-invalid={errors.lastname ? "true" : "false"}
+                                            />
+                                            {errors.lastname?.type === 'required' && <p role="alert" className="text-xs">Last name is required</p>}
                                         </div>
                                     </div>
                                 </div>
-
-                                {/* Username Field */}
+                                {/* User Name Field  */}
                                 <div className="flex -mx-3">
                                     <div className="w-full px-3 mb-5">
                                         <label className="text-xs font-semibold px-1">Username</label>
                                         <div className="flex">
-                                            <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i className="mdi mdi-email-outline text-gray-400 text-lg"></i></div>
+                                            <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                                                <i className="mdi mdi-email-outline text-gray-400 text-lg"></i>
+                                            </div>
                                             <input
-                                                value={user.userName}
-                                                onChange={(e) => setUser({ ...user, userName: e.target.value })}
-                                                type="username" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="@antudas" />
+                                                type="username"
+                                                className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                                                {...register("username", { required: true })}
+                                                aria-invalid={errors.username ? "true" : "false"}
+                                            />
+                                            {errors.username?.type === 'required' && <p role="alert" className="text-xs">Username is required</p>}
                                         </div>
                                     </div>
                                 </div>
-
-                                {/* Email Field */}
+                                {/* Email Field  */}
                                 <div className="flex -mx-3">
                                     <div className="w-full px-3 mb-5">
                                         <label className="text-xs font-semibold px-1">Email</label>
                                         <div className="flex">
-                                            <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i className="mdi mdi-email-outline text-gray-400 text-lg"></i></div>
+                                            <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                                                <i className="mdi mdi-email-outline text-gray-400 text-lg"></i>
+                                            </div>
                                             <input
-                                                value={user.email}
-                                                onChange={(e) => setUser({ ...user, email: e.target.value })} type="email" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="johnsmith@example.com" />
+                                                type="email"
+                                                className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                                                placeholder="antu@example.com"
+                                                {...register("email", { required: true })}
+                                                aria-invalid={errors.email ? "true" : "false"}
+                                            />
+                                            {errors.email?.type === 'required' && <p role="alert" className="text-xs">Email is required</p>}
                                         </div>
                                     </div>
                                 </div>
-
                                 {/* Password Field */}
                                 <div className="flex -mx-3">
                                     <div className="w-full px-3 mb-12">
                                         <label className="text-xs font-semibold px-1">Password</label>
                                         <div className="flex">
-                                            <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center"><i className="mdi mdi-lock-outline text-gray-400 text-lg"></i></div>
+                                            <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                                                <i className="mdi mdi-lock-outline text-gray-400 text-lg"></i>
+                                            </div>
                                             <input
-                                                value={user.password}
-                                                onChange={(e) => setUser({ ...user, password: e.target.value })} type="password" className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" placeholder="************" />
+                                                type="password"
+                                                className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                                                placeholder="************"
+                                                {...register("password", { required: true })}
+                                                aria-invalid={errors.password ? "true" : "false"}
+                                            />
+                                            {errors.password?.type === 'required' && <p role="alert" className="text-xs">Password is required</p>}
                                         </div>
                                     </div>
                                 </div>
-
                                 {/* Submit Button  */}
                                 <div className="flex -mx-3">
                                     <div className="w-full px-3 mb-5">
                                         <button
-                                            onClick={onSignUp} className="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold">{buttonDissabled ? "No Sign Up" : "Sign Up"}</button>
+                                            type="submit"
+                                            className="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indindigo-700 text-white rounded-lg px-3 py-3 font-semibold"
+                                        >Sign Up
+                                        </button>
                                     </div>
                                 </div>
                             </form>
