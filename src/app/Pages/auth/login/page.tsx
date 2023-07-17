@@ -26,7 +26,7 @@ const page = () => {
             toast.success("Login Successfull...")
         } catch (error: any) {
             // Handeling Catch Errors 
-            toast.error(error.message)
+            toast.error("Login Failed Please read the message below...",error.message)
             console.error("Login Failed Please Check your email & Password...", error.message);
         } 
     };

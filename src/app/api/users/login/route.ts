@@ -8,20 +8,20 @@ connect()
 
 export async function POST(request: NextRequest) {
 
-    console.log(User)
+    console.log("First User Info", User)
 
     try {
 
         const reqBody = await request.json()
         const { email, password } = reqBody;
-        console.log(reqBody);
+        // console.log("Request Body", reqBody);
 
         //check if user exists
         const user = await User.findOne({ email })
         if (!user) {
             return NextResponse.json({ error: "User does not exist" }, { status: 400 })
         }
-        console.log("user exists");
+        // console.log("user exists");
 
 
         //check if password is correct
@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
         if (!validPassword) {
             return NextResponse.json({ error: "Invalid password" }, { status: 400 })
         }
-        console.log(user);
+        // console.log("User Info", user);
 
         //create token data
         const tokenData = {
@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
             email: user.email
         }
         //create token
-        const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET!, { expiresIn: "1d" })
+        const token = await jwt.sign(tokenData, "rezahrm!@", { expiresIn: "1d" })
 
         const response = NextResponse.json({
             message: "Login successful",
