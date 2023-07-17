@@ -7,8 +7,11 @@ import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
+import { BsRouter } from "react-icons/bs";
 
 const page = () => {
+
+    const router = useRouter();
 
     // Dissabled Button State 
     const [buttonDissabled, setButtonDisabled] = useState(true);
@@ -23,12 +26,13 @@ const page = () => {
         try {
             const response = await axios.post("/api/users/login", userData);
             console.log("Login Successfull", response.data);
+            router.push("/");
             toast.success("Login Successfull...")
         } catch (error: any) {
             // Handeling Catch Errors 
-            toast.error("Login Failed Please read the message below...",error.message)
+            toast.error("Login Failed Please read the message below...", error.message)
             console.error("Login Failed Please Check your email & Password...", error.message);
-        } 
+        }
     };
 
 

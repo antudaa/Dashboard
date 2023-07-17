@@ -11,9 +11,22 @@ import close from "@/Assets/Icons/close.png";
 // Dark and Light Icons
 import { BsSun } from "react-icons/bs";
 import { BsFillMoonFill } from "react-icons/bs";
+import { BiLogOutCircle } from "react-icons/bi";
+import { toast } from "react-hot-toast";
+import axios from "axios";
 
 
 const TopNav = ({ toggleNav, open }: any) => {
+
+    const handleLogOut = async () => {
+        try {
+            await axios.get("/api/users/logout");
+            toast.success("Logout Successfull...")
+        } catch (error: any) {
+            console.log(error.message);
+            toast.error(error.message);
+        }
+    } 
 
     return (
         <div className="flex items-center justify-between px-8 bg-[aliceblue] text-gray-800 w-full shadow-lg py-2">
@@ -61,8 +74,10 @@ const TopNav = ({ toggleNav, open }: any) => {
                 </Link>
 
                 {/* Profile Icon */}
-                <Link href="#" className="my-auto">
-                    <svg className="h-8 md:h-7" enableBackground="new 0 0 32 32" id="Stock_cut" version="1.1" viewBox="0 0 32 32"><desc /><g><circle cx="16" cy="16" fill="none" r="15" stroke="#000000" strokeLinejoin="round" strokeMiterlimit="10" strokeWidth="2" /><path d="M26,27L26,27   c0-5.523-4.477-10-10-10h0c-5.523,0-10,4.477-10,10v0" fill="none" stroke="#000000" strokeLinejoin="round" strokeMiterlimit="10" strokeWidth="2" /><circle cx="16" cy="11" fill="none" r="6" stroke="#000000" strokeLinejoin="round" strokeMiterlimit="10" strokeWidth="2" /></g></svg>
+                <Link
+                    onClick={handleLogOut}
+                    href="#" className="my-auto">
+                    <BiLogOutCircle className="h-6 w-8 rotate-180" />
                 </Link>
             </div>
         </div>
